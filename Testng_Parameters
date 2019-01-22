@@ -1,0 +1,63 @@
+TESTNG Keywords
+
+1. @BeforeSuite, @BeforeTest, @BeforeClass, @BeforeMethod, @Test, @AfterMethod, @BeforeClass, @AfterTest, @AfterSuite
+2. @BeforeMethod :: @Test :: @AfterMethod ->> This is a pair and runs the number of times @Test is present
+3. All other annotations are run one time only. 
+4. @Test --> The number of tests. @BeforeMethod etc are not test cases. 
+
+4.Parameters :: priority 
+@Test(priority=0) //defines priority of executing this test. without this test execution will be alphabetical to test method name. Same alphabetical order, then in sequence in which written
+public void testmethod1(){ }   
+
+5. Parameters :: groups
+@Test(priority=0, group="Smoke") //group is used to execute only those test cases from testng runner and also generate groupwise report
+public void testmethod1(){ }   
+@Test(priority=0, groups="End2End") //defines priority of executing this test. without this test execution will be alphabetical to method name
+public void testmethod2(){ }   
+
+6. Parameters :: dependsOnMethods
+@Test 
+public void testmethod1(){ }   
+@Test(dependsOnMethods="testmethod1") //depends on the succesfull execution of the testmethod1, else will be skipped
+public void testmethod2(){ }   
+ 
+7.Parameter :: invocationCount
+@Test(invocationCount=10) //this method(testmethod1) will be run 10 times; can used for loading data into system 
+public void testmethod1(){ }   
+
+8.Parameter :: invocationTimeOut
+@Test(invocationTimeOut=30000) //invocationTimeOut is millisecs till which the test case will 
+public void testmethod1(){ }   
+
+9.Parameter :: excpectedExceptions
+@Test(expectedExceptions=NumberFormatException.class) //Exception which is expected, provide the class name of the exception. Test case will not failed if this exception comes.
+public void testmethod1(){ }   
+
+8.Parameter :: enabled
+//This is to enable a test case for execution. 
+@Test(enabled=True) //to execute a test case, use true, to skip use false
+public void testmethod1(){ }   
+
+9.@Parameter --> This is used before @Test to pass Values from TestNG.xml, This will store environment variables
+                 Storing test data here is not good practice
+                 Parameters can be at Suite level or Test Level. Test lever overrides suitelevel
+
+@Test()
+@Parameters({"ATestCase-Parameter", "BTestCase-Parameter"}) //name of the parameter in testng xml
+public void ATestCase(String Param1, String Param2) { //stores the value passed from testng.xml
+	
+	System.out.println(Param1);
+=======================================================================	
+	In TestNG xml: 
+	<test thread-count="5" name="Test">
+    <parameter name="ATestCase-Parameter" value="This is A Test Case Parameter"></parameter>
+    <parameter name="BTestCase-Parameter" value="This is B Test Case Parameter"></parameter> 
+    <classes>
+      <class name="com.kaushik.selenium.capabilities.TestNGParameters"/>
+    </classes>
+  </test> <!-- Test -->
+  
+
+
+10. Index.html ->> Contains the TestNG report in the output folder of project on Refresh om project
+
