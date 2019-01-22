@@ -1,0 +1,60 @@
+package com.kaushik.selenium.capabilities;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class DynamicTables {
+	
+WebDriver driver;
+	
+	
+	@BeforeMethod
+	public void openBrowser() {
+	  System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+	  driver = new ChromeDriver();
+	  driver.manage().window().maximize();
+	  driver.navigate().to("http://demo.guru99.com/test/table.html");
+	}
+	
+	@AfterMethod
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+	
+	@Test
+	public void readTable() {
+	WebElement Table = driver.findElement(By.xpath("/html/body/table/tbody"));
+	List<WebElement> TableRows = Table.findElements(By.tagName("tr"));
+	int NumberOfRows = TableRows.size();
+	for (int i=0;i<NumberOfRows;i++) 
+	{
+	
+		List<WebElement> TableColumns = TableRows.get(i).findElements(By.tagName("td"));
+		int NumberOfColumns = TableColumns.size();
+		System.out.println("Row " + (i+1));
+		
+		for (int j = 0; j<NumberOfColumns; j++) 
+		{
+		System.out.println(TableColumns.get(j).getText());
+		//System.out.println("Total Columns " + NumberOfColumns);
+		}	
+		
+	}
+	System.out.println("Total Rows " + NumberOfRows);
+	
+	
+		
+		
+	}
+	
+	
+
+}
