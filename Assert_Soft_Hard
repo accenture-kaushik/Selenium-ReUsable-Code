@@ -1,0 +1,86 @@
+package com.kaushik.selenium.capabilities;
+
+import java.awt.List;
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+public class TryAsserts {
+
+SoftAssert softassert = new SoftAssert();
+Logger Log = Logger.getLogger(TryAsserts.class);
+
+WebDriver driver;
+	
+	
+	@BeforeTest
+	public void openBrowser() {
+	  System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+	  driver = new ChromeDriver();
+	  //driver.manage().window().maximize();
+	  driver.navigate().to("http://demo.guru99.com/test/newtours/register.php");
+	  driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	  
+	}
+	
+	@AfterTest
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+ 	}
+	
+	@Test(priority=1)
+	public void registerNewUser() {
+	
+	driver.findElement(By.name("firstName")).sendKeys("Kaushik");
+	driver.findElement(By.name("lastName")).sendKeys("Majumder");
+	driver.findElement(By.name("phone")).sendKeys("7221909897");
+	driver.findElement(By.name("userName")).sendKeys("abc.gmail.com");
+	driver.findElement(By.name("address1")).sendKeys("Malwadi Road");
+	driver.findElement(By.name("city")).sendKeys("Pune");
+	driver.findElement(By.name("state")).sendKeys("Maharashtra");
+	driver.findElement(By.name("postalCode")).sendKeys("411028");
+	WebElement e = driver.findElement(By.name("country"));
+	Select sel = new Select(e);
+	sel.selectByVisibleText("INDIA");
+	driver.findElement(By.name("email")).sendKeys("kaushik808080");
+	driver.findElement(By.name("password")).sendKeys("abcd808080");
+	driver.findElement(By.name("confirmPassword")).sendKeys("abcd808080");
+	
+	driver.findElement(By.name("submit")).click();
+	
+	}
+	
+	@Test(priority=2)
+	public void verifyNewRegistration() {
+	Log.info("***** Verify Correct Registration ***** ");	
+	java.util.List<WebElement> el = driver.findElements(By.xpath("//b"));
+	System.out.println(el.size());
+	for(int i=0;i<el.size();i++){
+	WebElement e = el.get(i);
+	String textbody = e.getText();
+	System.out.println(textbody);
+	
+	///// *********** SoftAssets to Note ************** 
+	softassert.assertEquals("kaushik808081", textbody);	
+    softassert.assertAll();		//--->>> This is to accumulate all asserts and show result as Pass/Fail
+	}
+	}
+	
+ 	
+
+}
