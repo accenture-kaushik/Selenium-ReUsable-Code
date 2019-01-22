@@ -1,0 +1,20 @@
+Headless Browser 
+Add this code snipet where the driver is initialized; window size should be set to regular window size on which the UI runs  
+
+public void initialize() { 
+System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver"); 
+ 
+ ChromeOptions options = new ChromeOptions(); 
+
+ options.addArguments("window-size=1920,1080"); 
+
+ options.addArguments("headless"); 
+
+
+  driver = new ChromeDriver(options); 
+
+  driver.manage().window().maximize(); 
+
+  driver.navigate().to("http://demo.guru99.com/test/newtours/register.php"); 
+
+} 
