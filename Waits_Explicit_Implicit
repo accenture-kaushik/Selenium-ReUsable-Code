@@ -1,0 +1,87 @@
+	package com.kaushik.selenium.capabilities;
+
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+//Dynamic Wait:: Implicit Wait, Explicit, PageLoadWait - all are dynamic waits. 
+//Dynamic wait is that WebDriver will wait wait a maximum <nn> seconds before exception. 
+//If element is available within nn secs, it will not wait for all the time. 
+//Static Wait:: Thread.sleep. The thread will always sleep for the mentioned wait time even if condition is met. 
+
+//Implicit Wait - Global as it will be on all WebElements that the driver interacts with
+//PageLoadTimeOut - Wait for the page to load. 
+//ExplicitWait - Achieved through WedDriverWait.class on a specific element as it mentions a specific element
+//WebDriverWait Class is used with {.ignoring} and {.until}  {ExpectedCondition.visibilityof()}	
+
+//Implicit and Explicit wait should not be used together at it would increase the synchronization time
+
+public class Waits_Explicit_Implicit {
+
+WebDriver driver;
+	
+	
+	@BeforeMethod
+	public void openBrowser() {
+	  System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+	  driver = new ChromeDriver();
+	  //driver.manage().window().maximize();
+	  driver.navigate().to("https://www.facebook.com/");
+	  driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	  
+	}
+	
+	@Test
+	public void waitExplicit() {
+		
+	WebElement _locator = driver.findElement(By.xpath("//*[@id='u_0_2']"));	
+	clickOn(driver, _locator, 20);
+	
+//	@SuppressWarnings("deprecation")
+//	Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+//			.withTimeout(10, TimeUnit.SECONDS)
+//			.pollingEvery(1, TimeUnit.SECONDS)
+//			.ignoring(NoSuchElementException.class);
+//	
+		
+	}
+	
+//Explicit wait for clickable element - ExpectedCondition.elementToBeClickable()
+	public static void clickOn(WebDriver driver, WebElement locator, int timeout) {
+
+	//not necessary to add the ignoring clause. WedDriverWait ... until.... ExpectedCondition.... }	
+	//radio button, link, button - clickable
+	new WebDriverWait(driver, timeout).ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(locator));
+	locator.click();	
+	
+	
+	}
+
+//Explicit wait for text element - ExpectedCondition.visibleOf()
+	public static void entertext(WebDriver driver, WebElement locator, int timeout) {
+
+		new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOf(locator));
+		locator.click();	
+		}
+	
+	@AfterMethod
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+	
+	
+}
