@@ -1,0 +1,58 @@
+package com.kaushik.selenium.capabilities;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+import com.test.utils.ListenMouseAction;
+
+@Listeners(ListenMouseAction.class)
+
+public class ListernersTest {
+	
+WebDriver driver;
+	
+	
+	@BeforeMethod
+	public void openBrowser() {
+	  System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+	  driver = new ChromeDriver();
+	  driver.manage().window().maximize();
+	  driver.navigate().to("https://www.facebook.com/");
+	}
+	
+	@AfterMethod
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+	
+	@Test
+	public void mouseActions() throws InterruptedException {
+	WebElement emailfield = driver.findElement(By.id("email"));
+	Actions builder = new Actions(driver);
+	Action A = builder.moveToElement(emailfield).click().keyUp(emailfield, Keys.SHIFT).sendKeys(emailfield, "hello").doubleClick(emailfield).contextClick().build();
+	A.perform();
+	System.out.println("mouseActions - Facebook highlight ");
+	Thread.sleep(8000);
+	}
+	
+	
+	@Test
+	public void launchgoogle() {
+		
+		WebDriver driver1;
+		driver1 = new ChromeDriver();
+		driver1.navigate().to("https://www.google.com/");
+		System.out.println("launchgoogle - Launching Google ");
+	}
+
+}
