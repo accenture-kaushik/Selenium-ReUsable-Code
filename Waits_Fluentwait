@@ -1,0 +1,94 @@
+package com.kaushik.selenium.capabilities;
+
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class Waits_FluentWait_Function_Predicate{
+	
+public WebDriver driver;
+	
+	
+
+	@BeforeTest
+	public void openBrowser() {
+	  System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+	  driver = new ChromeDriver();
+	  //driver.manage().window().maximize();
+	  driver.navigate().to("http://softwaretestingplace.blogspot.com/2017/02/selenium-fluent-wait.html");
+	  driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+	  driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	  
+	}
+	
+	@Test(priority=1)
+	public void ClickOnForMessage() throws InterruptedException {
+		
+	WebElement ClickOn = driver.findElement(By.xpath("//*[@id='post-body-5280210221385817166']/div[1]/button"));
+	ClickOn.click();
+	
+	FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+		       .withTimeout(30, TimeUnit.SECONDS)
+		       .pollingEvery(2, TimeUnit.SECONDS)
+		       .withMessage("Waiting")
+		       .ignoring(NoSuchElementException.class);
+	
+	//First parameter of the Function interface is the argument and the second is return type
+	//apply is the interface method that has been implemented here.
+
+	//A predicate is similar to a function. But it always returns a Boolean expression.
+	//Example of using Predicate interface
+//	*************************************************************
+//	Predicate<WebDriver> predicate = new Predicate<WebDriver>() {
+//
+//		public boolean apply(WebDriver arg0) {
+//			WebElement element = arg0.findElement(By.id("dynamicColor"));
+//			String color = element.getCssValue("color");
+//			System.out.println("The button text has color :" + color);
+//			if (color.equals("rgba(255, 255, 0, 1)")) {
+//				return true;
+//			}
+//			return false;
+//		}
+//	};
+//	wait.until(predicate);
+//	*************************************************************
+	
+	
+	WebElement element = wait.until(new Function<WebDriver, WebElement>() 
+	{
+		public WebElement apply(WebDriver driver) {
+			WebElement element = driver.findElement(By.xpath("//*[@id='demo']"));
+			String getTextOnPage = element.getText();
+			if(getTextOnPage.equals("Software Testing Material - DEMO PAGE")){
+				System.out.println(getTextOnPage);
+				return element;
+			}else{
+				System.out.println(" Wait There");
+				
+				return null;
+			}
+		}
+	});
+
+	}
+	
+	@AfterTest
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+}
+
+
