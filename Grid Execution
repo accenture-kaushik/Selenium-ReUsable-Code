@@ -1,0 +1,64 @@
+package com.kaushik.selenium.capabilities;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class GridExecution {
+	
+//********  To start HUB ********
+//Go to the Directory where the server is places from command prompt. cd c:/.... and execute below	
+//	java -jar selenium-server-standalone-3.14.0.jar -role hub
+
+	// Note the URL on whihc the Grid is running
+	
+//******* To start Node and Register to the Grid *******
+// java -Dwebdriver.chrome.driver="chromedriver.exe path enter here" -jar selenium-server-standalone-3.14.0.jar -role node -hub http://192.168.1.12:4444/grid/register/
+//the IP here is the IP of the grid machine	
+
+	
+	WebDriver driver;
+	
+	@BeforeMethod
+	public void openBrowser() throws MalformedURLException {
+
+	  //1. Defining the capabilities
+	  DesiredCapabilities cap = new DesiredCapabilities();
+	  cap.setBrowserName("chrome");
+	  cap.setPlatform(Platform.MAC);
+	  
+	  //2. Merging the capabilities to Options.
+	  ChromeOptions options = new ChromeOptions();
+	  options.merge(cap);
+	  
+	  //3. Instantiate the Remote Web driver with the Hub URL.
+	  String HubURL = "http://192.168.1.12:4444/wd/hub";  //HubURL will get from the HUB from CMD/Terminal
+	  driver = new RemoteWebDriver(new URL(HubURL),options);
+	  
+	 	 	  	  	  	  
+	  driver.manage().window().maximize();
+	  driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
+	  System.out.println(driver.getTitle());
+	}
+	
+	@AfterMethod
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+	
+	@Test
+	public void testmethod() {
+		System.out.println("Running in Grid");
+	}
+
+}
