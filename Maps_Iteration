@@ -1,0 +1,58 @@
+package com.kaushik.selenium.capabilities;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class IteratingWithMaps {
+
+	public static void main(String[] args) {
+	
+		Map<String,String> data = new HashMap<String, String>();
+		data.put("Name", "Kaushik");
+		data.put("Company", "Accenture");
+		
+		//to retrieve both key and value from map // Use Map.entrySet, returning Map.Entry
+		System.out.println("Type -1 :: Using Map.entrySet to iterate");
+		for(Map.Entry<String,String> dataentry : data.entrySet())
+		{
+		System.out.println(dataentry.getKey());
+		System.out.println(dataentry.getValue());
+		}
+		
+		//Map.keySet is iterator over key
+		//Map.value is iterator over value
+		System.out.println("Type -2 :: Iterating over key and values seperately");
+		for(String KeyData :data.keySet())
+			{System.out.println(KeyData);}
+		for(String KeyData :data.values())
+			{System.out.println(KeyData);}
+		
+		
+		//Retrieving key and value using iterator class. Benefit is iterator can remove an entry while iterating over the Map
+		System.out.println("Type -3 :: Using iterator to iterate over map");
+		Iterator<Map.Entry<String, String>> itr = data.entrySet().iterator();
+		while(itr.hasNext())
+		{
+		Map.Entry<String, String> entry = itr.next();	
+		System.out.println(entry.getValue());
+		System.out.println(entry.getKey());
+			
+		}
+		System.out.println("Type -4 :: retrieving the value by providing the key");
+		//Retrieving values by proving the Key
+		for (String KeyValue : data.keySet())
+		{
+			
+			System.out.println(data.get(KeyValue)); //returns values of the keys provided
+		}
+		
+		
+		//Lambda expression in Java 8 - simplest
+		System.out.println("Type -5 :: Use of Map.forEach - Lambda expression");
+		data.forEach((String k,String v) -> System.out.println("Key " + k + " & Value " + v ));
+		//data.forEach((String k,String v) -> );
+	}
+
+}
