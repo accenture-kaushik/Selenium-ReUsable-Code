@@ -1,0 +1,42 @@
+package com.kaushik.selenium.utility;
+
+import java.util.ArrayList;
+
+public class DataProviderXLReader_ArrayListReading {
+	
+	public static Xls_Reader reader;
+	
+	public static ArrayList<Object[]> getDatafromExcel() {
+	
+	ArrayList<Object[]> myData = new ArrayList<Object[]>();
+	try {
+	reader = new Xls_Reader("/Users/kaushikmajumder/Desktop/LogonDetails.xlsx");
+	}catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	for(int i=2;i<=reader.getRowCount("Sheet1");i++) 
+	{
+	String fname = reader.getCellData("Sheet1", "Fname", i);
+	String lname = reader.getCellData("Sheet1", "Lname", i);
+	String phone = reader.getCellData("Sheet1", "Phone", i);
+	String email = reader.getCellData("Sheet1", "Email", i);
+	String address1 = reader.getCellData("Sheet1", "Address1", i);
+	String city = reader.getCellData("Sheet1", "City", i);
+	String pcode = reader.getCellData("Sheet1", "Pcode", i);
+	String uname = reader.getCellData("Sheet1", "Uname", i);
+	String password = reader.getCellData("Sheet1", "Password", i);
+	
+	//Object obj[] = {fname, lname, phone, email, address1, city, pcode, uname, password};	
+	//myData.add(obj);	
+	myData.add(new Object[] {fname, lname, phone, email, address1, city, pcode, uname, password});	
+		
+	}
+		
+	return myData;	
+		
+		
+	}
+	
+
+}
