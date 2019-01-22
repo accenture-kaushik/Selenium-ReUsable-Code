@@ -1,0 +1,51 @@
+package com.kaushik.selenium.capabilities;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+@Listeners(ListenerClass.class)
+
+public class HeadLessBrowserTest extends TestBase{
+	
+	Logger logs = Logger.getLogger(HeadLessBrowserTest.class);
+	
+	
+	@BeforeMethod	
+	
+	public void openBrowser() {
+	System.out.println("Setup @ Beforemethod"); 
+	initialize();  
+	}
+	
+	@Test
+	public void selectCountry() {
+	WebElement DropDownField = driver.findElement(By.xpath("//*[@name ='country']"));
+	Select DropDownSelect = new Select(DropDownField); //select value from dropdown
+	Boolean DropDownMultiple = DropDownSelect.isMultiple(); //check if dropdown selects multiple selections
+    System.out.println(DropDownMultiple);
+	DropDownSelect.selectByValue("INDIA");
+	//DropDownSelect.equals(DropDownField);
+	logs.info("India Selected");
+	AssertJUnit.assertEquals("India", DropDownSelect.getFirstSelectedOption());
+	}
+	
+	@AfterMethod
+	
+	public void tearDown() throws InterruptedException {
+	Thread.sleep(5000);	
+	driver.quit();	
+	}
+		
+}
