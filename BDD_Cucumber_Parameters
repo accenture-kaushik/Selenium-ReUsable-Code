@@ -1,0 +1,96 @@
+1. Feature file, Step Definition File, Runner Class - three components on cucumber-BDD
+
+2. Feature, Scenario, Scenario Outline, Given, When, Then, And -> These are mostly commonly used keywords in feature.file
+   Scenario Outline is used only with Examples keyword for data passing. 
+   Example key word uses regular expression in step definition file (Selenium code)
+   
+ 3. Runner class provides tags, feature file and step definition file location.
+ 4. Create feature file, create runner class and then dry run to generate the code template. 
+ 
+ 5. @Given("^Whatever is written in the giver condition of featute file$")
+    @When("^Whatever is written in the when condition of feature file$")  
+    
+  6. Make sure that no Given When Then etc have same statements. 
+  
+  7. Regular Expression to get data from examples in feature file. 
+  
+    @Then("^User enters username \"(.*)\" and password \"(.*)\"$")
+    public void user_enters_username_password(String U1, String P1) { 
+    
+    Feature file for this is:
+    Then User enters username "<uname>" and password "<pword>"
+    Examples:
+|	uname	|	pword	|	firstname	|	lastname	|
+|	naveenk	|	test@123|	kaushik		|	majumder	|
+|	admin	|	admin	|	test		|	test		| 
+
+  8. Tags
+**** Feature file with tags *** 
+@Basic   -->> Tags ->> In runner class provides which scenarios will be executed like Smoke, E2E etc 
+Scenario: 1-Login UserId and Password
+Given User is on Login Page of Free CRM
+
+@Regression ->> Tags
+Scenario: 2-Home Page verification
+Given User is on Home page of Free CRM
+   
+****** Runner class with tags ******      
+     @RunWith(Cucumber.class)
+     @CucumberOptions(
+		
+		//features = where the feature files are stored
+		//glue = where the step definition files are stored
+		//monochrome = readable console output
+		//dryRun = will do a dry run, check if all steps are written
+		//format = for output formatting
+		//strict = during runtime if we have all step definition. 
+		//Tag is in conjunction with .feature file where we mention the tags. This is to execute specific group of Scenarios, similar to groups in TestNG 
+		//Tag Combination
+		//{"@Something1", "@Something2"} = Something AND Something tag scenarios 
+		//{"@Something1, @Something2"} = Something OR Something tag scenarios
+		//{"~@Something3"} = Ignore scenarios with tilt in fromt of tags
+		
+		features= "/Users/kaushikmajumder/Feb2018/L001B/src/main/java/com/feature/files/ApplicationTestUsingTags.feature"
+		,glue= {"com.stepdefinition.selenium"}
+		,monochrome = true
+		,dryRun=false
+		,strict=true
+		,tags= {"@Basic"}
+		,format= {"pretty", "html:test-output", "json:json_output/cucumber.json", "junit:juint_xml/cucumber.xml"}
+		)
+  
+  
+  9. Hooks
+  
+  Global hooks - condition which is executed before every scenario execution. Hooks can be ordered to execute in a sequence
+  @Before(option=0)
+  @Before(option=1) etc
+  @After(option=0)
+  @After(option=1)
+  @After(option=2) etc
+  
+  Local Hooks - Scenario based specific condition execution
+*** Feature File with local hook ****
+The @FirstHook condition is for this scenario only // This selective pre condition is not available in testng
+@FirstHook
+Scenario: 1-Login UserId and Password
+Given User is on Login Page of Free CRM
+
+The @SecondHook condition is for this scenario only 
+@SecondHook
+Scenario: 2-Home Page verification
+Given User is on Home page of Free CRM
+  
+*** Step definition with local hook ***   
+@Before("@FirstHook")
+public void beforeHomePage() {
+	System.out.println("This is before home page only");
+	
+}
+
+@Before("@SecondHook")
+public void beforecalenderPage() {
+	System.out.println("This is before home page only");
+	
+} 
+
