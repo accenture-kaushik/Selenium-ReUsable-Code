@@ -1,0 +1,22 @@
+POJO to JSON Marshelling . ->> GSON, Jackson, Simple JSON, JSON SOUP APIs are used
+JSON to POJO - Un-Marshelling
+
+POJO = Plain old Java Object
+
+Sample JSON
+
+emp{
+    EmpID: "1",
+    EmpName : "Tom"
+    EmpDept : "HR"
+    mobile : 
+    [
+       samsung : "S1",
+       apple : "Iphone 8",
+       motorola : "M1"
+    ]
+
+
+reading JSON from Java Client side: 
+emp.EmpID
+emp.mobile.samsung
