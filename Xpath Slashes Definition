@@ -1,0 +1,17 @@
+Double slash // means any descendant node of the current node in the html tree which matches the locator.
+
+Single slash / means node which is a direct child of the current.
+
+//div[@id='add']//span[@id=addone'] will match
+
+<div id="add">
+  <div>
+    <span id="addone">
+  </div>
+</div>
+And
+
+<div id="add">
+    <span id="addone">
+</div>
+//div[@id='add']/span[@id=addone'] will match only the second html tree.
