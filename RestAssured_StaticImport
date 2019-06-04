@@ -1,0 +1,38 @@
+package getRequest;
+
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.*;   --->>>>>> Static Import of RestAssured Class.
+import io.restassured.response.Response;
+
+public class GetDataStaticImport {
+    public String RequestURL = "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22";
+	
+	@Test
+	public void getResponseBody() {
+					
+		String resptext = get(RequestURL).asString();	
+		System.out.println(resptext);
+		
+	}
+	
+	
+	
+	@Test
+	public void getResponseCode() {
+		
+		int respcode = get(RequestURL).getStatusCode();
+		System.out.println(respcode);
+		
+	}
+	
+	
+	@Test
+	public void getResponseTime() {
+		
+		long resptime = get(RequestURL).getTime();
+		System.out.println(resptime);
+	}
+	
+
+}
