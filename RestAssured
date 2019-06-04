@@ -1,0 +1,42 @@
+package getRequest;
+
+import org.testng.annotations.Test;
+
+import io.restassured.*;
+import io.restassured.response.Response;
+
+public class GetData {
+
+	
+	@Test
+	public void getResponseBody() {
+		
+		Response resp = RestAssured.get("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
+		
+		String resptext = resp.asString();		
+		System.out.println(resptext);
+	}
+	
+	
+	
+	@Test
+	public void getResponseCode() {
+		
+		Response resp = RestAssured.get("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
+		int respcode = resp.getStatusCode();
+		System.out.println(respcode);
+		
+	}
+	
+	
+	@Test
+	public void getResponseTime() {
+		
+		Response resp = RestAssured.get("https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22");
+		
+		long resptime = resp.getTime();	
+		System.out.println(resptime);
+	}
+	
+
+}
