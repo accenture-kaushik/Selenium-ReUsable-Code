@@ -1,3 +1,64 @@
+JSON File
+============================
+{
+    "transaction": [
+        {
+            "CONTAINER": "creditCard",
+            "id": 14725092,
+            "type": "PURCHASE",
+            "subType": "PURCHASE",
+            "amount": {
+                "amount": 101,
+                "currency": "USD"
+            },
+            "baseType": "DEBIT",
+            "categoryType": "EXPENSE",
+            "categoryId": 24,
+            "category": "Service Charges/Fees",
+            "categorySource": "SYSTEM",
+            "description": {
+                "original": "AIR VALET",
+                "simple": "AirValet"
+            },
+            "date": "2014-01-17",
+            "postDate": "2014-01-17",
+            "isManual": false,
+            "status": "POSTED",
+            "accountId": 10288852,
+            "merchant": {
+                "id": "1390",
+                "source": "YODLEE",
+                "name": "AirValet"
+            },
+            "highLevelCategoryId": 10000009
+        }
+    ]
+}
+===================================================
+Reading the above JSON File
+String json = ...; // read this from a file, receive from webservice etc.
+ 
+JsonParser parser = new JsonParser();
+JsonObject rootObject = parser.parse(json).getAsJsonObject();
+ 
+// Get the "transaction" array
+JsonArray transactions = rootObject.getAsJsonArray("transaction");
+ 
+// Get the first transaction object
+JsonObject transactionObject = transactions.get(0).getAsJsonObject();
+ 
+// Get the value of the "CONTAINER" element
+String container = transactionObject.get("CONTAINER").getAsString();
+System.out.println("Container: " + container);
+=================================================================================
+
+
+
+
+
+
+
+
 JSON File: 
 ++++++++++++++++++++++++++++++++++
 {
