@@ -1,0 +1,32 @@
+-A
+  -B
+    -C
+      -D1../D1
+      -D2../D2
+      -D3../D3
+         -E1../E1
+         -E2../E2
+      -D4../D4
+    -/C
+    -F../F
+    -G
+      -H1../H1
+      -H2../H2
+    -/G  
+  -/B
+-/A     
+  
+  
+
+Assume Context Node ==> C
+PARENT            ==>   /parent::*             -> Returns Node B (return only dierct parent)
+ANCESTOR          ==>   /ancestor::*           -> Returns list of B and A (returns parent and grandparents)
+ANCESTOR OR SELF  ==>   /ancestor-or-self::*   -> Returns list of C, B and A (parent, grandparent and self)
+CHILD             ==>   /child::*              -> Returns list of D1, D2, D3 and D4 (returns only child)
+DESCENDANT        ==>   /descendant::* .       -> Returns list of D1, D2, D3, E1, E2 and D4 (All children and grand children)
+DESCENDATNT OR SELF ==> /descendant-or-self    -> Returns list of C, D1, D2, D3, E1, E2 and D4 (all above and self too)
+
+FOLLOWING           ==> /following::*          -> Returns list of F, G, H1, H2 (All tags after the closing tag of context node)
+FOLLOWING SIBLING   ==> /following-sibling::*  -> Returns list of F and G (Returns siblings nodes after the context node)
+PRECEDING           ==> /preceding::*          -> 
+
