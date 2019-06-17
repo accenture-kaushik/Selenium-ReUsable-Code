@@ -1,5 +1,7 @@
 -A
   -B
+    -B1../B1
+    -B2../B2
     -C
       -D1../D1
       -D2../D2
@@ -22,11 +24,16 @@ Assume Context Node ==> C
 PARENT            ==>   /parent::*             -> Returns Node B (return only dierct parent)
 ANCESTOR          ==>   /ancestor::*           -> Returns list of B and A (returns parent and grandparents)
 ANCESTOR OR SELF  ==>   /ancestor-or-self::*   -> Returns list of C, B and A (parent, grandparent and self)
+
 CHILD             ==>   /child::*              -> Returns list of D1, D2, D3 and D4 (returns only child)
 DESCENDANT        ==>   /descendant::* .       -> Returns list of D1, D2, D3, E1, E2 and D4 (All children and grand children)
-DESCENDATNT OR SELF ==> /descendant-or-self    -> Returns list of C, D1, D2, D3, E1, E2 and D4 (all above and self too)
+DESCENDANT OR SELF ==> /descendant-or-self     -> Returns list of C, D1, D2, D3, E1, E2 and D4 (all above and self too)
+
+
 
 FOLLOWING           ==> /following::*          -> Returns list of F, G, H1, H2 (All tags after the closing tag of context node)
 FOLLOWING SIBLING   ==> /following-sibling::*  -> Returns list of F and G (Returns siblings nodes after the context node)
-PRECEDING           ==> /preceding::*          -> 
+PRECEDING           ==> /preceding::*          -> Returns list of B1, B2, B and A(Returns all tags before the opening of current node)
+PRECEDING SIBLING   ==> /preceding-sibling::*  -> Returns list of B1 and B2 (Returns all siblings before currect node)
 
+** Following and Preceding for referring nodes that are after/before the close/start of current node *** 
