@@ -1,0 +1,29 @@
+Synchronization - Waits. Sync between page to load and Selenium Actions. Selenium has classes and methods for synchronization;
+other tools like protractor has inherent waits. 
+2 types of Wait - Static Wait and Dynamic Wait
+Static Wait: Thread.Sleep --> The webpage will wait for the specific time mentioned to perform the action. 
+Dynamic Wait --> Will wait for a maximum of secs mention. Example: say 20 seconds is mentioned, but webelement is available in 2 secs,
+then driver will ignore the rest 18 secs. So, better performance. 
+
+Dynamic Wait - Implicit Wait, Explicit Wait and Fluent Wait
+
+****** Implicit Wait ******** For all instances of webdriver, applied throughout the page
+ 1-->       driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS); Wait for page to load completely for 20 secs max
+ 2-->       driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);  Wait for each element on all pages to load for 10 secs max
+                                                                              This is applied on a driver level on all driver instance
+                                                                              
+
+******** Explicit Wait ****** Applies to a specific element. 
+WebDriverWait is the class which takes 2 parameters - driver and waiting secs and will wait until ExpectedCondition is satisfied
+ExpectedConditions - visibilityOf(<Which WebElement>), elementToBeClickable(<Which WebElement>) etc. 
+new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(TextBoxToEnter)); --> Will wait for max 10 secs for Text Box to be available
+TextBoxToEnter.sendKeys("Kaushik Majumder") --> And then will enter value in the Text Box
+
+
+Implicitely Wait and Explicitely Wait - Should not be used together. 
+Implicitely Wait will wait for the element for (10) secs and then Explicitely wait will wait for another (20) secs. 
+So, if a webelment is not visible then total total wait will become (10 + 20) secs. Total sync time will increase. 
+ImplicitelyWait we can chnage anytime. In the flow, whichever is the latest implicitely wait that will be implemented. 
+
+
+
