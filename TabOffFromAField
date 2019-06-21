@@ -1,0 +1,20 @@
+	@Test
+	public void tabOff() {
+		
+		System.out.println("Tab ing off");
+		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/chromedriver");	
+		  driver = new ChromeDriver();
+		
+		  driver.navigate().to("http://demo.guru99.com/test/newtours/register.php");
+		  WebElement FirstName = driver.findElement(By.xpath(".//*[@name='firstName']"));
+		  FirstName.sendKeys("Kaushik");
+		  
+      FirstName.sendKeys(Keys.TAB);                           --------------- >>>> Here we are tabing off the First Name field
+		  
+		  WebElement LastName = driver.findElement(By.xpath(".//*[@name='lastName']"));
+		  Boolean b = driver.switchTo().activeElement().equals(LastName);   ---------> Driver switched to active element and checking with the current active WebElement, 
+                                                                                   which is last name here. 
+		  
+		  System.out.println("Yes/No Tab to Last Name" + b);
+		  
+	}
