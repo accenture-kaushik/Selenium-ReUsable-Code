@@ -1,0 +1,138 @@
+************* extent-config.xml *******************************************
+*** This file will describe all the contect report features ***************
+***************************************************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+  <configuration>
+    <!-- report theme --> <!-- standard, dark -->
+    <theme>standard</theme>
+  
+    <!-- document encoding -->  <!-- defaults to UTF-8 -->
+    <encoding>UTF-8</encoding>
+    
+    <!-- protocol for script and stylesheets -->   <!-- defaults to https -->
+    <protocol>https</protocol>
+    
+    <!-- title of the document -->
+    <documentTitle>BDD Report</documentTitle>
+    
+    <!-- report name - displayed at top-nav -->
+    <reportName>BDD Report</reportName>
+    
+    <!-- global date format override -->  <!-- defaults to yyyy-MM-dd -->
+    <dateFormat>yyyy-MM-dd</dateFormat>
+    
+    <!-- global time format override -->   <!-- defaults to HH:mm:ss -->
+    <timeFormat>HH:mm:ss</timeFormat>
+    
+    <!-- custom javascript -->
+    <scripts>
+      <![CDATA[
+        $(document).ready(function() {
+        
+        });
+      ]]>
+    </scripts>
+    
+    <!-- custom styles -->
+    <styles>
+      <![CDATA[
+        
+      ]]>
+    </styles>
+  </configuration>
+</extentreports>
+
+***************************************************************************
+regular "config.properties" File 
+create an entry for the extent report config file location
+***************************************************************************
+reportConfigPath=Users/kaushikmajumder/git/Automation-World/L001B/config/extent-config.xml;
+
+***************************************************************************
+regular config read file
+create an entry for in the ConfigFileReader for the extent report path
+***************************************************************************
+
+public class ConfigFileReader {
+	
+		private Properties properties;
+		private final String propertyFilePath= System.getProperty("user.dir") + "//config//config.properties";
+
+		public ConfigFileReader(){
+			BufferedReader reader;
+			try {
+				reader = new BufferedReader(new FileReader(propertyFilePath));
+				properties = new Properties();
+				try {
+					properties.load(reader);
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				throw new RuntimeException("Configuration.properties not found at " + propertyFilePath);
+			}		
+		}
+		
+		public String getExtentReportConfigPath(){
+		String ExtentReportPath = properties.getProperty("reportConfigPath");
+		if(ExtentReportPath!= null) return ExtentReportPath;
+			else throw new RuntimeException("ExtentReportPath not specified in the Configuration.properties file.");		
+	}
+
+		}
+***************************************************************************
+******* Test Base  - createst the ConfigFileReader object *****************
+***************************************************************************
+public class TestBase {
+	
+	public Log log = new Log();
+	public ConfigFileReader configFileReader = new ConfigFileReader();
+  
+**************************************************************************************************************
+**** FileReaderManager -- Singleton Class in the "com.Manager" package
+~~~~~~~~~~~~~ Principles of Singleton Class  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+Private constructor to restrict instantiation of the class from other classes.
+Private static variable of the same class that is the only instance of the class.
+Public static method that returns the instance of the class, this is the global access point for outer 
+world to get the instance of the singleton class.
+****************************************************************************************************************
+package com.manager;
+
+import com.application.utils.ConfigFileReader;
+
+public class FileReaderManager {
+	
+	
+		private static FileReaderManager fileReaderManager = new FileReaderManager();
+		private static ConfigFileReader configFileReader;
+
+		private FileReaderManager() {
+		}
+
+		 public static FileReaderManager getInstance( ) {
+		      return fileReaderManager;
+		 }
+
+		 public ConfigFileReader getConfigReader() {
+			 return (configFileReader == null) ? new ConfigFileReader() : configFileReader;
+		 }
+	}
+  
+  ****************************************************************************************************************
+  Runner Class as Plugin
+  ****************************************************************************************************************
+  public class RunnerClass {
+
+	@AfterClass
+	public static void writeExtentReport() {
+		Reporter.loadXMLConfig(new File(FileReaderManager.getInstance().getConfigReader().getExtentReportConfigPath()));
+	}
+	
+}
+
+  
+
+
