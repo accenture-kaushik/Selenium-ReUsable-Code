@@ -1,0 +1,73 @@
+Step# 1: We create the instance of ExtentReports class and we pass arguments as path and file name with extension .html. 
+As you see above, I have given the link to the path followed by file name as the current class name with .html as the extension.
+
+Step# 2: Once the instance of ExtentReports created and path passed as the argument then we need to create the 
+instance of ExtentTest. It holds the method which initiates and end the tests Along with the 
+Log status as PASS, FAIL, SKIP, ERROR, FAIL, FATAL and WARNING.
+
+Step# 3:  You need to implement the log status with the help of the instance of ExtentTest. 
+You can implement it wherever you are asserting any condition as pass or fail. We will see it further in this tutorial.
+
+Step# 4: At the end, you need to end the test along with flushing and closing of the report. 
+It will help you to write the reporting to the designated file name.
+
+Let’s discuss the implementation of Extent Reports in the execution of the test.
+
+Scenario:  We are taking a scenario in which the driver will open the URL and it will capture the title at the home page. 
+Now our task is to assert the title through the if-else statement. If the title contains the expected keyword, 
+then Extent Reports should print this as pass. Similarly, if the title does not contain the keyword then Extent reports 
+should print fail in the report generated.
+****************************************************************************************************************
+
+package com.inviul.selenium.project;
+import org.testng.annotations.Test;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+import org.testng.annotations.BeforeMethod;
+import java.io.File;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+
+public class ExtentReportExample {
+  WebDriver driver = null;
+  public ExtentReports report;
+  public ExtentTest test;
+  String reportPath = new File("").getAbsolutePath().toString().trim()+"/Reports/";
+
+@BeforeMethod
+    public void beforeMethod() {
+    System.setProperty("webdriver.chrome.driver", "C:\\Selenium\\chromedriver.exe");
+    driver = new ChromeDriver();
+    //***********Extent Report Implementation***********
+    report = new ExtentReports(reportPath+this.getClass().getSimpleName()+".html", false);
+    //Starting the test case for reporting
+    test = report.startTest("Extent Report Example Project");
+    //***********Extent Report Implementation***********
+}
+@Test
+    public void extentReport() {
+    driver.get("http://www.inviul.com/");
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    driver.manage().window().maximize();
+    String title = driver.getTitle();
+    //Setting Pass Failure Log
+    if(title.contains("Avinash")){
+    System.out.println(title);
+    test.log(LogStatus.PASS, "Validate title matched for the web page", "Title matched");
+    }else{
+    test.log(LogStatus.FAIL, "Validate title matched for the web page", "Title didn't match");
+    }
+}
+@AfterMethod
+    public void afterMethod() {
+    driver.close();
+    driver.quit();
+    //Closing the report
+    report.endTest(test);
+    report.flush();
+    report.close();
+    }
+}
