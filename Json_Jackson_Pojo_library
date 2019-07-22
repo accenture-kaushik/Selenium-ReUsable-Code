@@ -1,0 +1,133 @@
+
+
+POJO s are created before this. 
+******* Perons POJO *********  <Array of Person Class>
+	@JsonProperty("Person")
+	private Person person;
+  
+  	@JsonProperty("Person")
+	public Person getPerson() {
+		return person;
+	}
+
+	@JsonProperty("Person")
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+  ************ Person POJO *********** <Elements of Person> 
+  	@JsonProperty("id")
+	private Integer id;
+	@JsonProperty("name")
+	private String name;
+	@JsonProperty("address")
+	private Address address;
+  	@JsonProperty("id")
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
+
+	@JsonProperty("name")
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@JsonProperty("address")
+	public Address getAddress() {
+		return address;
+	}
+
+	@JsonProperty("address")
+	public void setAddress(Address address) {
+		this.address = address;
+*****************************************************
+ Another is Address POJO  <Address POJO for elements of Address object>
+**************************** Persons JSON ************************** 
+"Employee": 
+[
+	 {"Person":
+			{"id": 1,
+			"name": "Kaushik",
+			"address":
+			{
+			"city": "pune",
+			"country": "india"
+			}		
+		    }
+	 },
+	 {"Person":
+			{"id": 1,
+			"name": "Mohua",
+			"address":
+			{
+			"city": "pune",
+			"country": "india"
+			}		
+		    }
+	 }
+ ]
+*********************************************************************
+ Readng JSON
+*********************************************************************
+package com.JsonLearning;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class ReadPerson {
+	
+	ObjectMapper mapper = new ObjectMapper();
+	File json; 
+	
+	@Test
+	public void toJava() {
+		
+		json = new File(System.getProperty("user.dir") + "//src//main//java//com//JsonLearning//FamilyPerson.json");
+//		System.out.println("File Path : " + json.getPath());
+		
+		try {
+			
+			Persons[] persons = mapper.readValue(json, Persons[].class);
+			List<Persons> lPerson = Arrays.asList(persons);
+			System.out.println(lPerson.size());
+			Iterator<Persons> it = lPerson.iterator();
+			
+			System.out.println("Number of Objects in array " + persons.length);
+			int i = 1;
+			while (it.hasNext())
+			{	
+				String name= it.next().getPerson().getName();
+				String city = it.next().getPerson().getAddress().getCity();
+				System.out.println("Name : " + name + " City : " + city);
+				System.out.println(i);
+				i++;
+//				String name = lPerson.get(i).getPerson().getName();
+				
+			}
+			
+//			System.out.println("Name " + persons.getName());
+//			System.out.println("Address City " + person.getAddress().getCity());
+			
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+}
+}
