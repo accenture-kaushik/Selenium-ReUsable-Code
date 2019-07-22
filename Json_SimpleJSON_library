@@ -1,0 +1,37 @@
+package com.Utility;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+
+
+
+
+public class JSONReader {
+	
+	
+	public static void main(String[] args) {
+	JSONParser parser = new JSONParser();
+	
+	try {
+		
+		Object obj = parser.parse(new FileReader("TestData.json"));
+		JSONObject jsonobject = (JSONObject) obj;
+		String FirstName = jsonobject.get("First Name").toString();
+		
+		
+		
+		
+		
+	}
+	catch (FileNotFoundException e) {e.printStackTrace();}
+	catch (IOException e1) {e1.printStackTrace();}
+	catch (Exception e3) {e3.printStackTrace();}
+	
+	}
+
+}
