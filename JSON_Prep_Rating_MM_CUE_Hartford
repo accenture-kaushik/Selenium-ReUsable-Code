@@ -1,0 +1,22 @@
+{
+	"PrepAndRating": {
+		"GenInfo": {
+			"SIC": "1234",
+			"MSI": "123"
+		},
+		"Location": 
+		[
+		  {
+				"Street": "100 main street",
+				"Zip": "06106"
+	       },
+		   {
+				"Street": "1610 clearwater street",
+				"Zip": "32806"
+		   }
+		]
+
+
+	}
+
+}
