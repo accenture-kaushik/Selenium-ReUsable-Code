@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CATALOG>
+	<PLANT>
+		<Serial id="1">
+			<COMMON>Bloodroot</COMMON>
+			<BOTANICAL>Sanguinaria canadensis</BOTANICAL>
+			<ZONE>4</ZONE>
+			<LIGHT>Mostly Shady</LIGHT>
+			<PRICE>$2.44</PRICE>
+			<AVAILABILITY>031599</AVAILABILITY>
+		</Serial>
+	</PLANT>
+	<PLANT>
+		<Serial id="2">
+			<COMMON>Columbine</COMMON>
+			<BOTANICAL>Aquilegia canadensis</BOTANICAL>
+			<ZONE>3</ZONE>
+			<LIGHT>Mostly Shady</LIGHT>
+			<PRICE>$9.37</PRICE>
+			<AVAILABILITY>030699</AVAILABILITY>
+		</Serial>
+	</PLANT>
+</CATALOG>
+======================================================
+	public void readXML() throws ParserConfigurationException, IOException, SAXException {
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		String XMLPath = "/Users/kaushikmajumder/Feb2018/API_Test/src/test/java/examples/users/TestData/Plants.xml";
+		Document obj = builder.parse(XMLPath);
+		
+		NodeList nodelist = obj.getElementsByTagName("Serial");
+		System.out.println("Number of Serial Tags = " + nodelist.getLength());
+		
+		for(int i=0; i<nodelist.getLength(); i++) {
+			
+			
+			Node node = nodelist.item(i);
+			//Element Node = 1
+      //Text Node = 3
+			if (node.getNodeType()==Node.ELEMENT_NODE) {
+				
+				Element e = (Element) node;
+				System.out.println(e.getTextContent());
+				System.out.println("Serial Number " + e.getAttribute("id"));
+				System.out.println(e.getElementsByTagName("COMMON").item(0).getTextContent());
+				System.out.println(e.getElementsByTagName("BOTANICAL").item(0).getTextContent());
+				System.out.println(e.getElementsByTagName("ZONE").item(0).getTextContent());
+				System.out.println(e.getElementsByTagName("LIGHT").item(0).getTextContent());
+			}
+					
+					
+		}		
+					
