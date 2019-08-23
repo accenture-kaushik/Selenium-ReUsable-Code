@@ -1,0 +1,89 @@
+package com.stepdefinition.select;
+
+import org.junit.AssumptionViolatedException;
+
+import cucumber.api.PendingException;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import junit.framework.Assert;
+
+public class Dependency {
+	
+	@Given("^I am on scenario A$")
+	public void i_am_on_scenario_A() throws Throwable {
+		System.out.println(" Print A Scenario Given ");
+		
+
+			Assert.assertEquals(" *** Assert in Step A Failed ***", "Expected", "Actual");
+
+
+			
+			
+		}
+
+
+	@Then("^print scenario A$")
+	public void print_scenario_A() throws Throwable {
+		System.out.println(" Print A Scenario Then ");
+	}
+
+	@Given("^I am on scenario B$")
+	public void i_am_on_scenario_B() throws Throwable {
+
+		System.out.println(" Print B Scenario Given ");
+	}
+
+	@Then("^print scenario B$")
+	public void print_scenario_B() throws Throwable {
+		System.out.println(" Print B Scenario Then ");
+	}
+
+	@Given("^I am on scenario C$")
+	public void i_am_on_scenario_C() throws Throwable {
+		System.out.println(" Print C Scenario Given ");
+	}
+
+	@Then("^print scenario C$")
+	public void print_scenario_C() throws Throwable {
+		System.out.println(" Print C Scenario Then ");
+	}
+
+	@Given("^I am on scenario D$")
+	public void i_am_on_scenario_D() throws Throwable {
+		System.out.println(" Print D Scenario Given ");
+	}
+
+	@Then("^print scenario D$")
+	public void print_scenario_D() throws Throwable {
+		System.out.println(" Print D Scenario Then ");
+	}
+
+
+	
+	@After()
+	public void afterScenario(Scenario scn) {
+		
+		if (scn.isFailed()) {
+			System.out.println(" ************ Failed Scenario ************** ");
+			DependencyFlag.toRunFlag=false;
+		}
+	}		
+  
+############################################################################################################
+	@Before(value={"@dependent"})
+	public void dependScenario(Scenario scn) {
+		System.out.println("****&&&&&&&  Print Step Hook before Scenario B *&&&&&&&&&&& ***** ");
+		System.out.println("^^^^^^^^^^^^^^^^^ Scenario Name " + scn.getName());
+		if(DependencyFlag.toRunFlag==false) {
+			
+			throw new AssumptionViolatedException("%%%%%%%%%%%% Scenario is being Skipped %%%%%%% ");
+		}
+	}
+		
+	}		
+	
+
+
