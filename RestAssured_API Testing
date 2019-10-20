@@ -1,0 +1,58 @@
+Get - retrieving
+Post - Create new resource, adding new entity
+Delete - Deleting existing resource
+Put - Updating to existing resource, modifying new entity
+************************************************************************************************************
+//JSON here is using Json simple dependency. 
+
+//Specify base URI
+	RestAssured.baseURI="http://restapi.demoqa.com/utilities/weather/city";
+	
+//Authentication (when required)
+
+	PreemptiveBasicAuthScheme authscheme = new PreemptiveBasicAuthScheme(); //basic authentication. can all of all types
+	authscheme.setusername();
+	authscheme.srtpassword();
+	
+	RestAssured.authentication = authscheme;
+	
+
+//Request object
+	RequestSpecification httpRequest=RestAssured.given();
+
+//Json creation	for sending data to request
+	  JSONObject requestParams=new JSONObject();
+	  requestParams.put("FirstName","JohnXYZ");
+	  requestParams.put("LastName","XYZJohn");
+	  requestParams.put("UserName","JohnXYZ");
+	  requestParams.put("Password","JohnXYZxyx");
+	  requestParams.put("Email","JohnXYZ@gmail.com");
+	  
+	  httpRequest.header("Content-Type","application/json");
+	  httpRequest.body(requestParams.toJSONString()); // attach above data to the request
+
+//Response object
+	Response response=httpRequest.request(Method.GET,"/Hyderabad");
+	
+//Response Validations
+	 int statusCode=response.getStatusCode();
+	 String statusLine=response.getStatusLine();
+	 String successCode=response.jsonPath().get("SuccessCode");
+	 boolean flag = response.contains("");	 
+	 
+	 
+	 //validating headers ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 String contentType=response.header("Content-Type");// capture details of Content-Type header
+	 String contentEncoding=response.header("Content-Encoding");// capture details of Content-Encoding  header
+	 
+	 Headers allheaders = response.headers();
+	 for(Headers header :: allheaders){
+	 
+	 header.getname();
+	 header.getvalue();
+	 .......
+	 .......
+	 
+	 }
+	 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	 
