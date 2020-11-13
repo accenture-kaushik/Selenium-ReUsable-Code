@@ -14,3 +14,4 @@
 12. nth-of-type        ->>>      htmltag#id>htmltag:nth-of-type    ** Example:: div#ElementList>li:nth-of-type(14) ** 
 
 13. sibling(Same parent) ->>>>      htmltag#id+htmltag   ** Example:: div#WebId + div    ~~~ find div with id WebId and then go to the following sibling under the same parent
+14. 
