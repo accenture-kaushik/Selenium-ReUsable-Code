@@ -1,0 +1,16 @@
+1. ID ->>>>>                     htmltag#id or Only #id Or htmltag[id='nnnnnnn']  ** Example: input[id='WebId'] ** 
+2. class ->>>>>                  htmltag.classname or Only .classname
+3. Cascaded class ->>>           htmltag.classname1.classname2.classname3    or Only   .classname1.classname2.classname3
+
+4. Multiple attribute ->>>>      htmltag[id='nnnnn'][type='zzzzz']
+5. Contains in CSS    ->>>>      htmltag[id*='nnnn']  Containing ID containing nnnn
+6. Start with in CSS  ->>>>      htmltag[id^='zzz'] Starts ID with zzz
+7. End with in CSS    ->>>>      htmltag[id$='bbb'] Ends ID with bbb
+8. Comma in CSS       ->>>>      htmltag.classname,htmltag.#id       ** Example: div.form_generator_class,input#WebId   ~~ here Input tag is inside the div ~~ *** 
+
+9. parentTag>childTag  ->>>      htmltag#id>htmltag    ** Example:: div#ElementList>li ~~~ List all child li tags under the div ElementList ~~~ *** 
+10. first-of-type      ->>>>     htmltag#id>htmltag:first-of-type  ** Example:: div#ElementList>li:first-of-type ** 
+11. last-of-type       ->>>>     htmltag#id>htmltag:last-of-type   ** Example:: div#ElementList>li:last-of-type ** 
+12. nth-of-type        ->>>      htmltag#id>htmltag:nth-of-type    ** Example:: div#ElementList>li:nth-of-type(14) ** 
+
+13. sibling(Same parent) ->>>>      htmltag#id+htmltag   ** Example:: div#WebId + div    ~~~ find div with id WebId and then go to the following sibling under the same parent
